@@ -53,3 +53,7 @@ def initdb_command():
     """Creates the database tables."""
     init_db()
     print('Initialized the database.')
+
+@app.route('/')
+def index():
+    return render_template('index.html')
