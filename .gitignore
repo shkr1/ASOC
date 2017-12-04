@@ -1,2 +1,3 @@
 asoc.db
 *.egg-info/
+venv/
