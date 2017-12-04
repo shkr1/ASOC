@@ -1,2 +1,2 @@
 asoc.db
-.eggs/
+*.eggs/
