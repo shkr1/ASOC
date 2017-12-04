@@ -1,0 +1,11 @@
+	2. install the app from the root of the project directory
+
+	pip install -editable .
+
+	3. initialize the database with this command:
+
+	flask initdb
+
+	4, now you can run the app:
+
+	flask run

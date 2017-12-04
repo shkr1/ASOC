@@ -1,0 +1,3 @@
+graft asoc/templates
+graft asoc/static
+include asoc/schema.sql
