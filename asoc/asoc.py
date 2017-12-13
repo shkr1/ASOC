@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
-import os
+import os, time
 import sqlite3
 from flask import Flask, request, session, g, jsonify,redirect, url_for, abort, \
         render_template, flash
@@ -57,7 +57,7 @@ def initdb_command():
 @app.route('/search')
 def add_numbers():
     url = request.args.get('url', 0, type=str)
-    
+    time.sleep(1)
     return jsonify(result=url)
 
 @app.route('/')
