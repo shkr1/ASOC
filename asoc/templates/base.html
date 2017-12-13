@@ -7,45 +7,109 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>{% block title %}Starter Template for Bootstrap{% endblock %}</title>
-	
-	{% block stylesheets %}
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>{% block title %}ASOC{% endblock %}</title>
     
-    <!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-  {% endblock %}
+    {% block stylesheets %}
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    {% endblock %}
   </head>
 
-  <body>
-	{% block nav %}
-	<nav class="navbar navbar-default navbar-static-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Brand</a>
-			</div>
-			
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	{% endblock %}
-	
-	<div class="row">
-		{% block body %}{% endblock %}
+<body>            
+    <div class="container-fluid">    
+        <header class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills float-right">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">ASOC</h3>
+      </header>
+
+        <main role="main" class="row text-center">
+
+            <!-- introducir url -->
+            <div class="col-12">
+                <div class="jumbotron jumbotron-fluid">
+                    <table class="col-12"><tbody>
+                        <tr id="titulo_buscador"><td class="align-middle">
+                                <h1>URL de Facebook</h1>
+                        </td></tr>
+
+                        <tr><td class="align-middle">
+                            <form class="form-inline">
+                                <div class="form-group col-12">
+                                    <input type="text" class="form-control col-md-10 col-sm-12" id="url" placeholder="url">
+
+                                    <button id="buscar" type="button" class="btn btn-primary col-md-2 col-sm-12">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </form>
+                        </td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <!-- Mostrar resultados -->
+            <div id="resultados"></div>
+       </main>
     </div>
-	</body>
+</body>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     {% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script src="../static/js/main.js"></script>
+
+    <script type=text/javascript>
+    $(function() {
+        $('#buscar').bind('click', function() {
+            // Primero se necesita obtener el valor del url
+            var url_ = $("#url").val();
+            $.ajax({
+                // En data puedes utilizar un objeto JSON, un array o un query string
+                data: {"url" : url_},
+                //Cambiar a type: POST si necesario
+                type: "GET",
+                // Formato de datos que se espera en la respuesta
+                dataType: "json",
+                // URL a la que se enviará la solicitud Ajax
+                url: $SCRIPT_ROOT + '/search',
+            })
+            .done(function( data, textStatus, jqXHR ) {
+                if ( console && console.log ) {
+                    mostrarResultados(data.result);
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                console.log( "La solicitud a fallado: " +  textStatus);
+                }
+            });
+        });
+    });
+    </script>
     {% endblock %}
 </body>
 </html>

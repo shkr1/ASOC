@@ -6,7 +6,7 @@
 
 import os
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import Flask, request, session, g, jsonify,redirect, url_for, abort, \
         render_template, flash
 
 app = Flask(__name__)
@@ -54,6 +54,12 @@ def initdb_command():
     init_db()
     print('Initialized the database.')
 
+@app.route('/search')
+def add_numbers():
+    url = request.args.get('url', 0, type=str)
+    
+    return jsonify(result=url)
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('base.html')
