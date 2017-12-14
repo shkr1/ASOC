@@ -1,14 +1,12 @@
 function showChart(data) {
   
-  var $container = $('#graficas'),
-        width = $container.width(),
-        height = $container.height();
-
   var svg = d3.select("#pie"),
-    radius = Math.min(width, height) / 4,
-    g = svg.append("g").attr("transform", "translate(" + width / 4 + "," + height / 4 + ")");;
+    width = +svg.attr("width"),
+    height = +svg.attr("height"),
+    radius = Math.min(width, height) / 2,
+    g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-  var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+  var color = d3.scaleOrdinal(["#3F729B", "#4B515D", "#2E2E2E", "#d0743c", "#ff8c00", "#98abc5", "#8a89a6"]);
 
   var pie = d3.pie()
       .sort(null)

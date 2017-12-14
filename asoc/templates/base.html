@@ -68,9 +68,21 @@
                 </div>
 
                 <div class="row">
-                    <div id="graficas" class="col-12">
-                        <svg id="pie" width="100%" style="height: 100vh;"></svg>
+                    <div id="graficas" class="col-12 text-center">
+                        <svg id="pie" width="470" height="250"></svg>
+                        <svg id="agua" width="470" height="250"></svg>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <h3 id="sub1"></h3>
+                    </div>
+                    
+                    <div class="col-6">
+                        <h3 id="sub2"></h3>    
+                    </div>
+                        
                 </div>
             </div>
         </div>
@@ -94,6 +106,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="{{ url_for('static', filename='js/liquidFillGauge.js') }}" ></script>
     <script src="{{ url_for('static', filename='js/draw.js') }}" ></script>
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
