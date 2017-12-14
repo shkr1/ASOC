@@ -113,7 +113,9 @@
     </script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
+
     <script type=text/javascript>
+        // Llamada Ajax en busqueda de los resultados de la pagina de Facebook
         function getResultados(){
             // Primero se necesita obtener el valor del url
             var url_ = $("#url").val();
@@ -130,23 +132,28 @@
             .done(function( data, textStatus, jqXHR ) {
                 if ( console && console.log ) {
                     mostrarResultados(data.result);
+
+                    // Quita la animacion de espera
                     $('body').removeClass('page-is-changing');
                     
                     $('.cd-loading-bar').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
 
                         $('.cd-loading-bar').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend');
                     });
+                    isAnimated = false;
                 }
             })
             .fail(function( jqXHR, textStatus, errorThrown ) {
                 if ( console && console.log ) {
                     console.log( "La solicitud a fallado: " +  textStatus);
+                    // Quita la animacion de espera
                     $('body').removeClass('page-is-changing');
                     
                     $('.cd-loading-bar').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
 
                         $('.cd-loading-bar').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend');
                     });
+                    isAnimated = false;
                 }
             });    
         };
