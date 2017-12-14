@@ -258,9 +258,9 @@ main .cd-main-content.cd-about::before {
   -ms-transform: scaleX(1);
   -o-transform: scaleX(1);
   transform: scaleX(1);
-  -webkit-transition: -webkit-transform 0.8s 0.8s ease-in;
-  -moz-transition: -moz-transform 0.8s 0.8s ease-in;
-  transition: transform 0.8s 0.8s ease-in;
+  -webkit-transition: -webkit-transform 5s 5s ease-in;
+  -moz-transition: -moz-transform 5s 5s ease-in;
+  transition: transform 5s 5s ease-in;
 }
 @media only screen and (min-width: 768px) {
   .cd-loading-bar {

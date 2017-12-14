@@ -120,17 +120,22 @@ def get_sentiment(mensajes):
     puntos = []
     par = 0
     for mensaje in mensajes:
-        print(mensaje, file=sys.stdout)
-        payload = "key=fc201ea103f39a685e149c8bfb282589&lang=auto&txt="+ mensaje +"&txtf=plain"
+        # print(mensaje, file=sys.stdout)
+        payload = "key=5c804449950579c8c623bf2d136d21e5&lang=auto&txt="+ mensaje +"&txtf=plain"
         payload = json.dumps(payload).encode("utf-8")
         headers = {'content-type': 'application/x-www-form-urlencoded'}
-        response = requests.request("POST", url, data=payload, headers=headers)
-        sent_json = json.loads(response.text)
-        print(sent_json, file=sys.stdout)
-        puntos.append(sent_json['score_tag'])
-        if par%2 == 0:
-            time.sleep(1)
-        par+=1 
+        
+        try:
+            response = requests.request("POST", url, data=payload, headers=headers)
+            sent_json = json.loads(response.text)
+
+            # print(sent_json, file=sys.stdout)
+            puntos.append(sent_json['score_tag'])
+            if par%2 == 0:
+                time.sleep(2)
+            par+=1
+        except Exception as e:
+            continue 
 
     contador = Counter(puntos)
     # print("P+",contador['P+'], file=sys.stdout)
