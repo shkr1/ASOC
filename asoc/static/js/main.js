@@ -1,5 +1,19 @@
 function mostrarResultados(resultados) {
-    $("#resultados").text(resultados);
+
+    // Datos dummies
+    resultados = {
+        nombre: "Sanwish de frijoles",
+
+        data:[
+                {name: "positivos", value: 100},
+                {name: "neutrales", value: 25}, 
+                {name: "negativos", value: 50}    
+            ]
+    }
+    // $("#resultados").text(resultados);
+    // console.log(resultados.data)
+    $("#pagina").text(resultados.nombre);
+    showChart(resultados.data);
 }
 
 $(document).ready(function (){

@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/transition.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chart.css') }}">
     {% endblock %}
+
   </head>
 
 <body class="bg-light">
@@ -43,7 +45,7 @@
 
                 <!-- introducir url -->
                 <div class="col-12">
-                    <div class="card card-body">
+                    <div class="card card-body bg-secondary">
                         <div class="row col-12">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="url" placeholder="url de página de Facebook">
@@ -56,9 +58,20 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid text-center">
             <div id="resultados" class="card card-body bg-white" style="height: 100vh">
-                
+
+                <div class="row">
+                    <div class="col-12">
+                        <h1 id="pagina"></h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="graficas" class="col-12">
+                        <svg id="pie" width="100%" style="height: 100vh;"></svg>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -80,6 +93,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="{{ url_for('static', filename='js/draw.js') }}" ></script>
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
