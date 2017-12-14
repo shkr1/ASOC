@@ -12,6 +12,8 @@ import urllib.request
 import sqlite3
 from flask import Flask, request, session, g, jsonify,redirect, url_for, abort, \
         render_template, flash
+import sys
+from collections import Counter
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -61,7 +63,10 @@ def initdb_command():
 @app.route('/search')
 def add_numbers():
     url = request.args.get('url', 0, type=str)
-    time.sleep(1)
+    mensajes = get_page_comments(url)
+    # mensajes = ["estoy muy feliz","estoy feliz","eres un tonto","estoy muy molesto","soy feliz","no soy feliz","estoy feliz y triste"]
+    resultado = get_sentiment(mensajes)
+
     return jsonify(result=url)
 
 @app.route('/')
@@ -81,7 +86,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBAO9f0XCyjPTNOBgx4wfUBzkLCDwAbZAYNnrLJ9B5FKLrZBOD50XoNVur4NHbUjnm1bmZAYLx0hZCvoZC9WNKVgf1NdYH5bdetUJ20XVKIDyZBIh4FZAD2enGh7kcUE4wntZAsUwZAli2W2tjoFs0FmMLGVT8b6HZAGqaGJB72sPzbp0cL8bw6PILEHk1XDRYF6ZBgZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBADxm0IaPHVC3Yo0IoaqMbjAY638ZBcXkqK11hb19LXPLZBuU6148OyDzgNbCC65iasbyQHWlYrL222UZBrMEqFZAJ5uQe0jZBPB5Jn6v1UZAY09a1mnRHj29SfIBWy3fbbqkG4QFvPGVIyI3ctoF2OyOqF2YZBK7zpJ5BKo1s9aZBmYmf2uGlJmmZAZCLElZAmkpQZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
@@ -108,5 +113,30 @@ def get_page_comments(url, limit=400):
             message = comment['message']
             if message:
                 messages.append(message)
-
     return messages # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
+
+def get_sentiment(mensajes):
+    url = "http://api.meaningcloud.com/sentiment-2.1"
+    puntos = []
+    par = 0
+    for mensaje in mensajes:
+        print(mensaje, file=sys.stdout)
+        payload = "key=fc201ea103f39a685e149c8bfb282589&lang=auto&txt="+ mensaje +"&txtf=plain"
+        payload = json.dumps(payload).encode("utf-8")
+        headers = {'content-type': 'application/x-www-form-urlencoded'}
+        response = requests.request("POST", url, data=payload, headers=headers)
+        sent_json = json.loads(response.text)
+        print(sent_json, file=sys.stdout)
+        puntos.append(sent_json['score_tag'])
+        if par%2 == 0:
+            time.sleep(1)
+        par+=1 
+
+    contador = Counter(puntos)
+    # print("P+",contador['P+'], file=sys.stdout)
+    # print('P',contador['P'], file=sys.stdout)
+    # print('NEU',contador['NEU'], file=sys.stdout)
+    # print('N',contador['N'], file=sys.stdout)
+    # print('N+',contador['N+'], file=sys.stdout)
+    # print('NONE',contador['NONE'], file=sys.stdout)
+    return contador 
