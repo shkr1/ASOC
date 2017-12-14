@@ -4,16 +4,7 @@ function mostrarResultados(resultados) {
     {
         isAnimated = true;
         limpiar()
-        // Datos dummies
-        resultados = {
-            nombre: "Sanwish de frijoles",
 
-            data:[
-                    {name: "positivos", value: 100},
-                    {name: "neutrales", value: 25}, 
-                    {name: "negativos", value: 50}    
-                ]
-        }
 
         // Obtiene la suma total de mensajes
         var suma = 0;
@@ -22,7 +13,7 @@ function mostrarResultados(resultados) {
         }
 
         // Despues se calcula el porcentaje de mensajes positivos
-        porcentaje = resultados.data[0].value/suma * 100;
+        porcentaje = (resultados.data[0].value + resultados.data[1].value )/suma * 100;
 
         // Aqui va el nombre de la pagina de Facebook
         $("#pagina").text(resultados.nombre);

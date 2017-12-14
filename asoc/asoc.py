@@ -62,12 +62,23 @@ def initdb_command():
 
 @app.route('/search')
 def add_numbers():
+    tipos = {"Positivo+":"P+","Positivo":"P","Neutral":"NEU","Negativo":"N","Negativo+":"N+"}
+    result = {}
     url = request.args.get('url', 0, type=str)
-    mensajes = get_page_comments(url)
-    # mensajes = ["estoy muy feliz","estoy feliz","eres un tonto","estoy muy molesto","soy feliz","no soy feliz","estoy feliz y triste"]
-    resultado = get_sentiment(mensajes)
+    datos = get_page_comments(url)
+    mensajes = datos[0]
+    name = datos[1]
 
-    return jsonify(result=url)
+    # datos = get_sentiment(mensajes)
+    datos = {"P+":2,"P":3,"NEU":2,"N":2,"N+":1}
+    data = []
+    for key in tipos.keys():
+        dato = {"name":key,"value":datos[tipos[key]]}
+        data.append(dato)
+    print(data)
+    result['nombre'] = name 
+    result['data'] = data
+    return jsonify(result=result)
 
 @app.route('/')
 def index():
@@ -86,13 +97,15 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBADxm0IaPHVC3Yo0IoaqMbjAY638ZBcXkqK11hb19LXPLZBuU6148OyDzgNbCC65iasbyQHWlYrL222UZBrMEqFZAJ5uQe0jZBPB5Jn6v1UZAY09a1mnRHj29SfIBWy3fbbqkG4QFvPGVIyI3ctoF2OyOqF2YZBK7zpJ5BKo1s9aZBmYmf2uGlJmmZAZCLElZAmkpQZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBABZBGR5hM8chP7onm86uGDZB1rt2TWkHLO9dTeqTyBRkBX5DWZCg3XHx9OuFCsiry6iy0IhDLUd8UaK1ATOogrVJCDqTADQLKDZBd5Knu9Xk0xjZAIDmiQSiZAnMZCrXSyQtlxU5ZAxZCpN1tU8bzR3vrnZA9dV4xT46iSy3mix7d9bfjMfzk5ZCfOZB3tVenSw0xAZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
     last_post = posts["data"][0]
     last_post_id = last_post["id"]
     comments = g.get_object(last_post_id, fields="comments")
+
+    name = g.get_object(object_id)['name']
     
     # Adjuntamos la primeros comentarios.
 
@@ -113,23 +126,21 @@ def get_page_comments(url, limit=400):
             message = comment['message']
             if message:
                 messages.append(message)
-    return messages # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
+    return [messages,name] # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
 
 def get_sentiment(mensajes):
     url = "http://api.meaningcloud.com/sentiment-2.1"
+    key = "fc201ea103f39a685e149c8bfb282589"    #2048ab0a47ddc5b10929719c430b66ed
     puntos = []
     par = 0
     for mensaje in mensajes:
-        # print(mensaje, file=sys.stdout)
-        payload = "key=5c804449950579c8c623bf2d136d21e5&lang=auto&txt="+ mensaje +"&txtf=plain"
+        payload = "key="+ key +"&lang=auto&txt="+ mensaje +"&txtf=plain"
         payload = json.dumps(payload).encode("utf-8")
         headers = {'content-type': 'application/x-www-form-urlencoded'}
-        
         try:
             response = requests.request("POST", url, data=payload, headers=headers)
             sent_json = json.loads(response.text)
-
-            # print(sent_json, file=sys.stdout)
+            # print(sent_json)
             puntos.append(sent_json['score_tag'])
             if par%2 == 0:
                 time.sleep(2)
@@ -138,10 +149,4 @@ def get_sentiment(mensajes):
             continue 
 
     contador = Counter(puntos)
-    # print("P+",contador['P+'], file=sys.stdout)
-    # print('P',contador['P'], file=sys.stdout)
-    # print('NEU',contador['NEU'], file=sys.stdout)
-    # print('N',contador['N'], file=sys.stdout)
-    # print('N+',contador['N+'], file=sys.stdout)
-    # print('NONE',contador['NONE'], file=sys.stdout)
     return contador 
