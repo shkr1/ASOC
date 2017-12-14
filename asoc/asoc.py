@@ -62,27 +62,40 @@ def initdb_command():
 
 @app.route('/search')
 def add_numbers():
-    tipos = {"Positivo+":"P+","Positivo":"P","Neutral":"NEU","Negativo":"N","Negativo+":"N+"}
+    tipos = {"P+": "Positivo+","P":"Positivo","NEU":"Neutral","N":"Negativo","N+":"Negativo+"}
     result = {}
     url = request.args.get('url', 0, type=str)
-    datos = get_page_comments(url)
-    mensajes = datos[0]
-    name = datos[1]
+    mensajes, name = get_page_comments(url)
 
-    # datos = get_sentiment(mensajes)
-    datos = {"P+":2,"P":3,"NEU":2,"N":2,"N+":1}
+    datos = get_sentiment(mensajes)
+
+    # datos = {"P+":2,"P":3,"NEU":2,"N":2,"N+":1}
     data = []
-    for key in tipos.keys():
-        dato = {"name":key,"value":datos[tipos[key]]}
+    for key in datos.keys():
+        dato = {"name":tipos[key],"value":datos[key]}
         data.append(dato)
-    print(data)
+    # print(data)
     result['nombre'] = name 
     result['data'] = data
+    # print(data)
     return jsonify(result=result)
 
 @app.route('/')
 def index():
     return render_template('base.html')
+
+# Recibe como parametro una palabra, le quita caracteres 
+# especiales y luego la transforma a minusculas.
+def limpiar(palabra):
+    import re
+    if len(palabra) > 0 and palabra[-1] == "\n":
+        palabra = palabra[:-1]
+
+    palabra = ''.join([i if ord(i) < 128 else '' for i in palabra])
+    # palabra = re.sub(r"[\]\[\?\.&\$\!¡#\}\{\)\(\*\d+¿:\|\^\-\'\"/]", "", palabra)
+    # palabra = palabra.lower()
+
+    return palabra
 
 def get_page_comments(url, limit=400):
     """Encuentra los comentarios del último post de la página de Facebook.
@@ -97,7 +110,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBABZBGR5hM8chP7onm86uGDZB1rt2TWkHLO9dTeqTyBRkBX5DWZCg3XHx9OuFCsiry6iy0IhDLUd8UaK1ATOogrVJCDqTADQLKDZBd5Knu9Xk0xjZAIDmiQSiZAnMZCrXSyQtlxU5ZAxZCpN1tU8bzR3vrnZA9dV4xT46iSy3mix7d9bfjMfzk5ZCfOZB3tVenSw0xAZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBABkJM7rKFuZCfcciwMNWZB9uZAW2QCSJ1ADqZBEPhjeYnBHA0cDruKSjebMC3K0mwuZAubpOW1P4i5ghTBMZCjjZC5EXZB8N1iZArQSv7b0nfgO2JyN6P4k80mwRtXNpZCZBlRReDf70iETJwXTuUYO7ZBBxI4iVUb705BldXq4IAjU4ZAE98J0wPWTQTBYw5XYfSwwZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
@@ -108,45 +121,49 @@ def get_page_comments(url, limit=400):
     name = g.get_object(object_id)['name']
     
     # Adjuntamos la primeros comentarios.
-
-    for comment in comments['comments']['data']:
-        message = comment['message']
-        if message:
-            messages.append(message)
-
-    # Si existen más comentarios tendremos que agregarlos también.
-
-    while len(messages) < limit and comments['comments']['paging'].get('next'):
-        _url = comments['comments']['paging']['next']
-        with urllib.request.urlopen(_url) as response:
-            p = response.read().decode('utf-8')
-            posts = json.loads(p)
-
-        for comment in posts['data']:
+    if 'comments' in comments.keys():
+        for comment in comments['comments']['data']:
             message = comment['message']
             if message:
                 messages.append(message)
-    return [messages,name] # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
+
+        # Si existen más comentarios tendremos que agregarlos también.
+
+        while len(messages) < limit and comments['comments']['paging'].get('next'):
+            _url = comments['comments']['paging']['next']
+            with urllib.request.urlopen(_url) as response:
+                p = response.read().decode('utf-8')
+                posts = json.loads(p)
+
+            for comment in posts['data']:
+                message = comment['message']
+                if message:
+                    message = limpiar(message)
+                    messages.append(message)
+    return messages, name # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
 
 def get_sentiment(mensajes):
     url = "http://api.meaningcloud.com/sentiment-2.1"
-    key = "fc201ea103f39a685e149c8bfb282589"    #2048ab0a47ddc5b10929719c430b66ed
-    puntos = []
+    key = "5c804449950579c8c623bf2d136d21e5"    #2048ab0a47ddc5b10929719c430b66ed
+    puntos = {}
     par = 0
     for mensaje in mensajes:
         payload = "key="+ key +"&lang=auto&txt="+ mensaje +"&txtf=plain"
-        payload = json.dumps(payload).encode("utf-8")
+        payload = payload.encode("utf-8")
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         try:
             response = requests.request("POST", url, data=payload, headers=headers)
             sent_json = json.loads(response.text)
             # print(sent_json)
-            puntos.append(sent_json['score_tag'])
+            if sent_json["score_tag"] in puntos.keys():
+                puntos[ sent_json["score_tag"] ] += 1
+            else:
+                puntos[ sent_json["score_tag"] ] = 1
+            
             if par%2 == 0:
                 time.sleep(2)
             par+=1
         except Exception as e:
             continue 
 
-    contador = Counter(puntos)
-    return contador 
+    return puntos

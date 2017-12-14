@@ -4,28 +4,38 @@ function mostrarResultados(resultados) {
     {
         isAnimated = true;
         limpiar()
-
-
         // Obtiene la suma total de mensajes
+           
         var suma = 0;
         for (var i = 0; i < resultados.data.length; i++) {
             suma = suma + resultados.data[i].value;
         }
 
-        // Despues se calcula el porcentaje de mensajes positivos
-        porcentaje = (resultados.data[0].value + resultados.data[1].value )/suma * 100;
+        if(suma > 0)
+        {
+            porcentaje = 0;
+            // Despues se calcula el porcentaje de mensajes positivos
+            for (var i = 0; i < resultados.data.length; i++) {
+                if(resultados.data[i].name == "Positivo+" || resultados.data[i].name == "Positivo"){
+                    porcentaje = porcentaje + (resultados.data[i].value + resultados.data[i].value )/suma * 100;
+                }
+            }
 
-        // Aqui va el nombre de la pagina de Facebook
-        $("#pagina").text(resultados.nombre);
-        // Muestra la grafica de distribucion de los mensajes
-        showChart(resultados.data);
+            // Aqui va el nombre de la pagina de Facebook
+            $("#pagina").text(resultados.nombre);
+            // Muestra la grafica de distribucion de los mensajes
+            showChart(resultados.data);
 
-        // Esta es la grafica de porcentaje de aceptacion
-        d3.select("#agua").call(d3.liquidfillgauge, porcentaje);
+            // Esta es la grafica de porcentaje de aceptacion
+            d3.select("#agua").call(d3.liquidfillgauge, porcentaje);
 
-        // Etiquetas para cada grafica
-        d3.select("#sub1").text("Distribución de mensajes");
-        d3.select("#sub2").text("Porcentaje de aceptación");
+            // Etiquetas para cada grafica
+            d3.select("#sub1").text("Distribución de mensajes");
+            d3.select("#sub2").text("Porcentaje de aceptación");
+        }else{
+            $("#pagina").text(resultados.nombre);
+            d3.select("#graficas").append("h3").text("No hay comentarios.");
+        }
     }
 }
 
