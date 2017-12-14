@@ -29,18 +29,32 @@ function mostrarResultados(resultados) {
             showChart(resultados.data);
 
             // Esta es la grafica de porcentaje de aceptacion
-            d3.select("#agua").call(d3.liquidfillgauge, porcentaje,{
-                circleColor: "#00C851",
-                textColor: "#007E33",
-                waveTextColor: "#805615",
-                waveColor: "#AA7D39",
-                textVertPosition: 0.8,
-                waveAnimateTime: 2000,
-                fillWithGradient: true,
-                gradientPoints: [0.2, 0, 0.9, 1],
-                gradientFromColor: "#3CA55C",
-                gradientToColor: "#B5AC49"
+            if(porcentaje >= 50){
+                d3.select("#agua").call(d3.liquidfillgauge, porcentaje, {
+                  circleColor: "#4caf50",
+                  textColor: "#43a047",
+                  waveTextColor: "#a5d6a7",
+                  waveColor: "#4caf50",
+                  waveAnimateTime: 2000,
+                  fillWithGradient: true,
+                  gradientPoints: [0.2, 0, 0.9, 1],
+                  gradientFromColor: "#43a047",
+                  gradientToColor: "#66bb6a"
                 });
+            }
+            else{
+                d3.select("#agua").call(d3.liquidfillgauge, porcentaje, {
+                  circleColor: "#f44336",
+                  textColor: "#e53935",
+                  waveTextColor: "#ef9a9a",
+                  waveColor: "#f44336",
+                  waveAnimateTime: 2000,
+                  fillWithGradient: true,
+                  gradientPoints: [0.2, 0, 0.9, 1],
+                  gradientFromColor: "#e53935",
+                  gradientToColor: "#ef5350"
+                });
+            }
 
             // Etiquetas para cada grafica
             d3.select("#sub1").text("Distribución de mensajes");
