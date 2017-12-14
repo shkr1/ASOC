@@ -22,8 +22,8 @@ function mostrarResultados(resultados) {
 
                 var porcentaje_val = resultados.data[i].value/suma * 100;
                 if(resultados.data[i].name == "Positivo+"){
-                    $("#bl_pos+").show();
-                    d3.select("#pos+").call(d3.liquidfillgauge, porcentaje_val);
+                    $("#bl_pos_").show();
+                    d3.select("#pos_").call(d3.liquidfillgauge, porcentaje_val);
                 }else if(resultados.data[i].name == "Positivo")
                 {
                     $("#bl_pos").show();
@@ -35,8 +35,8 @@ function mostrarResultados(resultados) {
                     $("#bl_neg").show();
                     d3.select("#neg").call(d3.liquidfillgauge, porcentaje_val);
                 }else if(resultados.data[i].name == "Negativo+"){
-                    $("#bl_neg+").show();
-                    d3.select("#neg+").call(d3.liquidfillgauge, porcentaje_val);
+                    $("#bl_neg_").show();
+                    d3.select("#neg_").call(d3.liquidfillgauge, porcentaje_val);
                 }
             }
             porcentaje = porcentaje/suma * 100;
@@ -91,9 +91,9 @@ $(document).ready(function (){
     $("#bl_neg").hide();
     $("#bl_neu").hide();
     $("#bl_pos").hide();
-    $("#bl_pos+").hide();
+    $("#bl_pos_").hide();
     $("#bl_acept").hide();
-    $("#bl_neg+").hide();
+    $("#bl_neg_").hide();
     // Cuando se le da click al boton de buscar se activa la animacion
     // y la llamada Ajax
     $('#buscar').bind('click', function() {
@@ -110,10 +110,10 @@ $(document).ready(function (){
 // y crea nuevas
 function limpiar(){
     $("#pagina").text("");
-    $("#bl_neg+").hide();
+    $("#bl_neg_").hide();
     $("#bl_neg").hide();
     $("#bl_neu").hide();
     $("#bl_pos").hide();
-    $("#bl_pos+").hide();
+    $("#bl_pos_").hide();
     $("#bl_acept").hide();
 };
