@@ -116,4 +116,11 @@ function limpiar(){
     $("#bl_pos").hide();
     $("#bl_pos_").hide();
     $("#bl_acept").hide();
+
+    $("#bl_neg_ g").remove();
+    $("#bl_neg g").remove();
+    $("#bl_neu g").remove();
+    $("#bl_pos g").remove();
+    $("#bl_pos_ g").remove();
+    $("#bl_acept g").remove();
 };
