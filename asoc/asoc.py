@@ -74,7 +74,7 @@ def add_numbers():
     for key in datos.keys():
         dato = {"name":tipos[key],"value":datos[key]}
         data.append(dato)
-    # print(data)
+    print(data)
     result['nombre'] = name 
     result['data'] = data
     # print(data)
@@ -110,7 +110,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBABkJM7rKFuZCfcciwMNWZB9uZAW2QCSJ1ADqZBEPhjeYnBHA0cDruKSjebMC3K0mwuZAubpOW1P4i5ghTBMZCjjZC5EXZB8N1iZArQSv7b0nfgO2JyN6P4k80mwRtXNpZCZBlRReDf70iETJwXTuUYO7ZBBxI4iVUb705BldXq4IAjU4ZAE98J0wPWTQTBYw5XYfSwwZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBAMFcw2fE0sKUDmLUkGZANgTSZAAl6ltk2SqZAMCGDHiP2ymCPvi8wSFqRtk5dhnmiSq4JswBesnVYMu8XQt5h8ZBOYAejz8ELtFf5G5JuX2F9cUpnsMm9ZBbpQqxpQF03nx751kDTMG0ZCotEtoLBLZCZAVJUXc5EKd7cwsm0ZCspUMu5dt8Te4ZA3nLGmuurF5AZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')

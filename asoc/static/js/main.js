@@ -17,9 +17,11 @@ function mostrarResultados(resultados) {
             // Despues se calcula el porcentaje de mensajes positivos
             for (var i = 0; i < resultados.data.length; i++) {
                 if(resultados.data[i].name == "Positivo+" || resultados.data[i].name == "Positivo"){
-                    porcentaje = porcentaje + (resultados.data[i].value + resultados.data[i].value )/suma * 100;
+                    porcentaje = porcentaje + resultados.data[i].value;
                 }
             }
+            porcentaje = porcentaje/suma * 100;
+
 
             // Aqui va el nombre de la pagina de Facebook
             $("#pagina").text(resultados.nombre);
@@ -27,7 +29,18 @@ function mostrarResultados(resultados) {
             showChart(resultados.data);
 
             // Esta es la grafica de porcentaje de aceptacion
-            d3.select("#agua").call(d3.liquidfillgauge, porcentaje);
+            d3.select("#agua").call(d3.liquidfillgauge, porcentaje,{
+                circleColor: "#00C851",
+                textColor: "#007E33",
+                waveTextColor: "#805615",
+                waveColor: "#AA7D39",
+                textVertPosition: 0.8,
+                waveAnimateTime: 2000,
+                fillWithGradient: true,
+                gradientPoints: [0.2, 0, 0.9, 1],
+                gradientFromColor: "#3CA55C",
+                gradientToColor: "#B5AC49"
+                });
 
             // Etiquetas para cada grafica
             d3.select("#sub1").text("Distribución de mensajes");
