@@ -1,5 +1,15 @@
+/**
+* Dibuja una gráfica de pastel.
+* Recibe como parametro data, que es un arreglo json con el siguiente formato
+* [
+*   {name: "nombre", value: "numero"},
+*   {name: "Nombre", value: "numero"},
+* ]
+*/
 function showChart(data) {
   
+  // En este caso selecciona la etiqueta por id "pie",
+  // es importante que esta etiqueta sea de tipo svg
   var svg = d3.select("#pie"),
     width = +svg.attr("width"),
     height = +svg.attr("height"),
