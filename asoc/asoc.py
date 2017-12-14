@@ -113,32 +113,35 @@ def get_page_comments(url, limit=400):
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
-    last_post = posts["data"][0]
-    last_post_id = last_post["id"]
-    comments = g.get_object(last_post_id, fields="comments")
+    for i in range(5):
+        last_post = posts["data"][i]
+        last_post_id = last_post["id"]
+        comments = g.get_object(last_post_id, fields="comments")
 
-    name = g.get_object(object_id)['name']
-    
-    # Adjuntamos la primeros comentarios.
-    if 'comments' in comments.keys():
-        for comment in comments['comments']['data']:
-            message = comment['message']
-            if message:
-                messages.append(message)
-
-        # Si existen más comentarios tendremos que agregarlos también.
-
-        while len(messages) < limit and comments['comments']['paging'].get('next'):
-            _url = comments['comments']['paging']['next']
-            with urllib.request.urlopen(_url) as response:
-                p = response.read().decode('utf-8')
-                posts = json.loads(p)
-
-            for comment in posts['data']:
+        name = g.get_object(object_id)['name']
+        
+        # Adjuntamos la primeros comentarios.
+        if 'comments' in comments.keys():
+            for comment in comments['comments']['data']:
                 message = comment['message']
                 if message:
-                    message = limpiar(message)
                     messages.append(message)
+
+            # Si existen más comentarios tendremos que agregarlos también.
+
+            while len(messages) < limit and comments['comments']['paging'].get('next'):
+                _url = comments['comments']['paging']['next']
+                with urllib.request.urlopen(_url) as response:
+                    p = response.read().decode('utf-8')
+                    posts = json.loads(p)
+
+                for comment in posts['data']:
+                    message = comment['message']
+                    if message:
+                        message = limpiar(message)
+                        messages.append(message)
+        if len(messages) > 0:
+            break
     return messages, name # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
 
 def get_sentiment(mensajes):
