@@ -62,7 +62,7 @@ def initdb_command():
 
 @app.route('/search')
 def add_numbers():
-    tipos = {"P+": "Positivo+","P":"Positivo","NEU":"Neutral","N":"Negativo","N+":"Negativo+"}
+    tipos = {"P+": "Positivo+","P":"Positivo","NEU":"Neutral","N":"Negativo","N+":"Negativo+", "NONE": "NONE"}
     result = {}
     url = request.args.get('url', 0, type=str)
     mensajes, name = get_page_comments(url)
