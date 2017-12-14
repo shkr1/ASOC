@@ -109,7 +109,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBAPHA0v03dvaXRzCIVEXsU1uZBy5VyEZBOkZBmeDAJCLrSflrEoVGs4oGa9zId3G6WZBqzJEJZBlXtudkFVGHvcJvcqCkkNIRha16AgMurgHTROpldTi6DpSgWEUujRLcOT6kuQlyhxQNzkJAZAIe1WnDkNBZCU6hZBk8TStFYJzlUdZAru3GtoxbTUrVBCERhnwZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBAAKzmMZAh4fp1zicQ1FrZC7OfZCZBHHr1ABJrknwqx9DBFvDu116RY1vio0lf1pFvzAeZBlBVKfySpDZC27k8GZAIZBbxX1CauusVZBZBHqFED3zS8kZAiU4N7CkkCxLma0xrhO1PU1eLGTD44nG0dmiXF7A6saEnsy4BxSZB99B7aMJ79YQuSfKiozYvMTXpmzrmAZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
@@ -154,6 +154,9 @@ def get_sentiment(mensajes):
             response = requests.request("POST", url, data=payload, headers=headers)
             sent_json = json.loads(response.text)
             # print(sent_json)
+            if sent_json["score_tag"] == "NONE":
+                sent_json["score_tag"] = "NEU"
+                
             if sent_json["score_tag"] in puntos.keys():
                 puntos[ sent_json["score_tag"] ] += 1
             else:

@@ -1,9 +1,9 @@
 isAnimated = false;
 function mostrarResultados(resultados) {
+    limpiar()
     if(!isAnimated)
     {
         isAnimated = true;
-        limpiar()
         // Obtiene la suma total de mensajes
            
         var suma = 0;
@@ -19,6 +19,25 @@ function mostrarResultados(resultados) {
                 if(resultados.data[i].name == "Positivo+" || resultados.data[i].name == "Positivo"){
                     porcentaje = porcentaje + resultados.data[i].value;
                 }
+
+                var porcentaje_val = resultados.data[i].value/suma * 100;
+                if(resultados.data[i].name == "Positivo+"){
+                    $("#bl_pos+").show();
+                    d3.select("#pos+").call(d3.liquidfillgauge, porcentaje_val);
+                }else if(resultados.data[i].name == "Positivo")
+                {
+                    $("#bl_pos").show();
+                    d3.select("#pos").call(d3.liquidfillgauge, porcentaje_val);
+                }else if(resultados.data[i].name == "Neutral"){
+                    $("#bl_neu").show();
+                    d3.select("#neu").call(d3.liquidfillgauge, porcentaje_val);
+                }else if(resultados.data[i].name == "Negativo"){
+                    $("#bl_neg").show();
+                    d3.select("#neg").call(d3.liquidfillgauge, porcentaje_val);
+                }else if(resultados.data[i].name == "Negativo+"){
+                    $("#bl_neg+").show();
+                    d3.select("#neg+").call(d3.liquidfillgauge, porcentaje_val);
+                }
             }
             porcentaje = porcentaje/suma * 100;
 
@@ -26,11 +45,13 @@ function mostrarResultados(resultados) {
             // Aqui va el nombre de la pagina de Facebook
             $("#pagina").text(resultados.nombre);
             // Muestra la grafica de distribucion de los mensajes
-            showChart(resultados.data);
+            // showChart(resultados.data);
 
+
+            $("#bl_acept").show();
             // Esta es la grafica de porcentaje de aceptacion
             if(porcentaje >= 50){
-                d3.select("#agua").call(d3.liquidfillgauge, porcentaje, {
+                d3.select("#acept").call(d3.liquidfillgauge, porcentaje, {
                   circleColor: "#4caf50",
                   textColor: "#43a047",
                   waveTextColor: "#a5d6a7",
@@ -43,7 +64,7 @@ function mostrarResultados(resultados) {
                 });
             }
             else{
-                d3.select("#agua").call(d3.liquidfillgauge, porcentaje, {
+                d3.select("#acept").call(d3.liquidfillgauge, porcentaje, {
                   circleColor: "#f44336",
                   textColor: "#e53935",
                   waveTextColor: "#ef9a9a",
@@ -57,17 +78,22 @@ function mostrarResultados(resultados) {
             }
 
             // Etiquetas para cada grafica
-            d3.select("#sub1").text("Distribución de mensajes");
-            d3.select("#sub2").text("Porcentaje de aceptación");
+            d3.select("#no_comments").text("");
         }else{
             $("#pagina").text(resultados.nombre);
-            d3.select("#graficas").append("h3").text("No hay comentarios.");
+            d3.select("#no_comments").text("No hay comentarios.");
         }
     }
 }
 
 $(document).ready(function (){
 
+    $("#bl_neg").hide();
+    $("#bl_neu").hide();
+    $("#bl_pos").hide();
+    $("#bl_pos+").hide();
+    $("#bl_acept").hide();
+    $("#bl_neg+").hide();
     // Cuando se le da click al boton de buscar se activa la animacion
     // y la llamada Ajax
     $('#buscar').bind('click', function() {
@@ -77,23 +103,17 @@ $(document).ready(function (){
             $('.cd-loading-bar').off('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend');
         });
     });
+
 });
 
 // Cuando se quiere generar una nueva busqueda, borra las etiquetas svg de cada grafica
 // y crea nuevas
 function limpiar(){
-    d3.selectAll("svg")
-        .remove();
-
-    var div = d3.select("#graficas");
-    div.append("svg")
-        .attr("id", "pie")
-        .attr("width", 470)
-        .attr("height", 250);
-
-    div.append("svg")
-        .attr("id", "agua")
-        .attr("width", 470)
-        .attr("height", 250);
-
+    $("#pagina").text("");
+    $("#bl_neg+").hide();
+    $("#bl_neg").hide();
+    $("#bl_neu").hide();
+    $("#bl_pos").hide();
+    $("#bl_pos+").hide();
+    $("#bl_acept").hide();
 };
