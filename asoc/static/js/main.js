@@ -83,6 +83,11 @@ function mostrarResultados(resultados) {
             $("#pagina").text(resultados.nombre);
             d3.select("#no_comments").text("No hay comentarios.");
         }
+        $("#post_info").html("<h5> Se analizaron "+ suma +" comentarios encontrados en el post más reciente con comentarios:<br/>" + 
+            "<a href='"+resultados.url+"posts"+"/"+resultados.id_post+"' target='_blank'>"+resultados.url+"posts"+"/"+resultados.id_post+"</a>" + 
+            "<br/> Y se distribuyen de la siguiente manera:</h5><br/>");
+        $("#link_post").html()
+        $("#cantidad_mensajes").html() 
     }
 }
 
@@ -116,6 +121,7 @@ function limpiar(){
     $("#bl_pos").hide();
     $("#bl_pos_").hide();
     $("#bl_acept").hide();
+    $("#post_info").html("")
 
     $("#bl_neg_ g").remove();
     $("#bl_neg g").remove();
@@ -123,4 +129,5 @@ function limpiar(){
     $("#bl_pos g").remove();
     $("#bl_pos_ g").remove();
     $("#bl_acept g").remove();
+
 };

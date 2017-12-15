@@ -65,7 +65,7 @@ def add_numbers():
     tipos = {"P+": "Positivo+","P":"Positivo","NEU":"Neutral","N":"Negativo","N+":"Negativo+", "NONE": "NONE"}
     result = {}
     url = request.args.get('url', 0, type=str)
-    mensajes, name = get_page_comments(url)
+    mensajes, name, id_post = get_page_comments(url)
 
     datos = get_sentiment(mensajes)
 
@@ -76,6 +76,9 @@ def add_numbers():
         data.append(dato)
     result['nombre'] = name 
     result['data'] = data
+    result['id_post'] = id_post
+    result['url'] = url
+
     # print(data)
     return jsonify(result=result)
 
@@ -116,6 +119,7 @@ def get_page_comments(url, limit=400):
     for i in range(5):
         last_post = posts["data"][i]
         last_post_id = last_post["id"]
+        id_post = last_post['id'].split("_")[1]
         comments = g.get_object(last_post_id, fields="comments")
 
         name = g.get_object(object_id)['name']
@@ -142,7 +146,7 @@ def get_page_comments(url, limit=400):
                         messages.append(message)
         if len(messages) > 0:
             break
-    return messages, name # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
+    return messages, name, id_post # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
 
 def get_sentiment(mensajes):
     url = "http://api.meaningcloud.com/sentiment-2.1"
