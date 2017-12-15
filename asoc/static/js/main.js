@@ -20,23 +20,23 @@ function mostrarResultados(resultados) {
                     porcentaje = porcentaje + resultados.data[i].value;
                 }
 
-                var porcentaje_val = resultados.data[i].value/suma * 100;
+                // var porcentaje_val = resultados.data[i].value/suma * 100;
                 if(resultados.data[i].name == "Positivo+"){
                     $("#bl_pos_").show();
-                    d3.select("#pos_").call(d3.liquidfillgauge, porcentaje_val);
+                    d3.select("#pos_").call(d3.liquidfillgauge, resultados.data[i].value, { displayPercent: false });
                 }else if(resultados.data[i].name == "Positivo")
                 {
                     $("#bl_pos").show();
-                    d3.select("#pos").call(d3.liquidfillgauge, porcentaje_val);
+                    d3.select("#pos").call(d3.liquidfillgauge, resultados.data[i].value, { displayPercent: false });
                 }else if(resultados.data[i].name == "Neutral"){
                     $("#bl_neu").show();
-                    d3.select("#neu").call(d3.liquidfillgauge, porcentaje_val);
+                    d3.select("#neu").call(d3.liquidfillgauge, resultados.data[i].value, { displayPercent: false });
                 }else if(resultados.data[i].name == "Negativo"){
                     $("#bl_neg").show();
-                    d3.select("#neg").call(d3.liquidfillgauge, porcentaje_val);
+                    d3.select("#neg").call(d3.liquidfillgauge, resultados.data[i].value, { displayPercent: false });
                 }else if(resultados.data[i].name == "Negativo+"){
                     $("#bl_neg_").show();
-                    d3.select("#neg_").call(d3.liquidfillgauge, porcentaje_val);
+                    d3.select("#neg_").call(d3.liquidfillgauge, resultados.data[i].value, { displayPercent: false });
                 }
             }
             porcentaje = porcentaje/suma * 100;
