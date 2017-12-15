@@ -112,7 +112,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBAAKzmMZAh4fp1zicQ1FrZC7OfZCZBHHr1ABJrknwqx9DBFvDu116RY1vio0lf1pFvzAeZBlBVKfySpDZC27k8GZAIZBbxX1CauusVZBZBHqFED3zS8kZAiU4N7CkkCxLma0xrhO1PU1eLGTD44nG0dmiXF7A6saEnsy4BxSZB99B7aMJ79YQuSfKiozYvMTXpmzrmAZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBAE0o1QnM1jLEEpp275tnBSMjSkbxZBQNj8SRyaMdPGBCFIAZCp65GUtyNFZCPdBnMQ8OlBZAUKVYrcsZCovn5vRJ8jPBsjMNeArutHntiLk0MYDZANNZC3PL4rmWSTrQAmRQ62QPEE7CyLx5OnOIqfgNt8YqulNLDZA6lnyP7vteZCNqwKDWV8ltWoJrnftB0AAZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
