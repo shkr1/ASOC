@@ -139,10 +139,14 @@ def get_page_comments(url, limit=400):
                 # Esta parte es para comentarios del posts
                 _url = comments['comments']['paging']['next']
                 comments = getComments(_url, messages)
-
+                with open("temp.txt", "w+", encoding="utf-8") as file:
+                    file.write(json.dumps(comments, indent=1))
                 # Estos son comentarios despues de comentarios (tienen otro formato)
-                while len(messages) < limit and comments.get('next'):
-                    _url = comments["next"]
+                entradas = 0
+                while len(messages) < limit and comments['paging'].get('next'):
+                    entradas += 1
+                    print("entradas =", entradas)
+                    _url = comments['paging']["next"]
                     comments = getComments(_url, messages)
                     
         if len(messages) > 0:
