@@ -70,6 +70,7 @@ def add_numbers():
     datos, fallidos = get_sentiment(mensajes)
 
     # datos = {"P+":2,"P":3,"NEU":2,"N":2,"N+":1}
+    # fallidos = 52
     data = []
     for key in datos.keys():
         dato = {"name":tipos[key],"value":datos[key]}
@@ -114,7 +115,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBAIyDRmfQzpycWDiWHZBA0hajI0nEWrPrTsS1khpnziZBTwM2stZCrxhNrYdZAhnRJtZBPgSaE1hHIJwZC1MhAOCFqVsMbTgODl4o8oPEZC4AzDenlYLWfFhzpZAacmXFJjyJ4o5ONpk3e77D2BYCJglE6XHb02cQasrvz1sZCyS27XpgxNe3GYhGIZANAB00WpogZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBAInYLIdE1QTKD9rRMYPC4I7xHLq04BOZAZCyUETiMb3pIfV34NuWyCyjcMiBhsjAoFdJGyDG0kdvygrjDdON1nSAwEXkivXGGzVxNxEOGUTHfbo1RSqU12M42LKxTxsGqwjQdClZB853aQaAAMxVWl3KN7EhQTuk1ZCZAIcNfOvWPWGOhX29hLNsyhzBjEQZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
@@ -123,9 +124,9 @@ def get_page_comments(url, limit=400):
         last_post_id = last_post["id"]
         id_post = last_post['id'].split("_")[1]
         comments = g.get_object(last_post_id, fields="comments")
-
+        # with open("temp.txt", "w+", encoding="utf-8") as file:
+        #     file.write(json.dumps(comments, indent=1))
         name = g.get_object(object_id)['name']
-        
         # Adjuntamos la primeros comentarios.
         if 'comments' in comments.keys():
             for comment in comments['comments']['data']:
@@ -137,6 +138,7 @@ def get_page_comments(url, limit=400):
 
             while len(messages) < limit and comments['comments']['paging'].get('next'):
                 _url = comments['comments']['paging']['next']
+
                 with urllib.request.urlopen(_url) as response:
                     p = response.read().decode('utf-8')
                     posts = json.loads(p)
@@ -155,8 +157,6 @@ def get_sentiment(mensajes):
     key = "5c804449950579c8c623bf2d136d21e5"    #2048ab0a47ddc5b10929719c430b66ed
     puntos = {}
     par = 0
-    with open("temp.txt", "w+", encoding="utf-8") as file:
-        file.write(json.dumps(mensajes))
     print(len(mensajes))
     fallidos = 0
     for mensaje in mensajes:
