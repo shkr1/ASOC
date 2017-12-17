@@ -124,8 +124,7 @@ def get_page_comments(url, limit=400):
         last_post_id = last_post["id"]
         id_post = last_post['id'].split("_")[1]
         comments = g.get_object(last_post_id, fields="comments")
-        # with open("temp.txt", "w+", encoding="utf-8") as file:
-        #     file.write(json.dumps(comments, indent=1))
+        
         name = g.get_object(object_id)['name']
         # Adjuntamos la primeros comentarios.
         if 'comments' in comments.keys():
@@ -135,22 +134,34 @@ def get_page_comments(url, limit=400):
                     messages.append(message)
 
             # Si existen más comentarios tendremos que agregarlos también.
+            if comments['comments']['paging'].get('next'):
 
-            while len(messages) < limit and comments['comments']['paging'].get('next'):
+                # Esta parte es para comentarios del posts
                 _url = comments['comments']['paging']['next']
+                comments = getComments(_url, messages)
 
-                with urllib.request.urlopen(_url) as response:
-                    p = response.read().decode('utf-8')
-                    posts = json.loads(p)
-
-                for comment in posts['data']:
-                    message = comment['message']
-                    if message:
-                        message = limpiar(message)
-                        messages.append(message)
+                # Estos son comentarios despues de comentarios (tienen otro formato)
+                while len(messages) < limit and comments.get('next'):
+                    _url = comments["next"]
+                    comments = getComments(_url, messages)
+                    
         if len(messages) > 0:
             break
     return messages, name, id_post # Caso de prueba: get_page_comments('https://www.facebook.com/animalsinrandomplaces/')
+
+# Obtiene los comentarios de una url y los guarda en un arreglo
+def getComments(_url, messages):
+    with urllib.request.urlopen(_url) as response:
+        p = response.read().decode('utf-8')
+        comments = json.loads(p)
+
+    for comment in comments['data']:
+        message = comment['message']
+        if message:
+            message = limpiar(message)
+            messages.append(message)
+
+    return comments
 
 def get_sentiment(mensajes):
     url = "http://api.meaningcloud.com/sentiment-2.1"

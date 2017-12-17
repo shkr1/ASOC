@@ -1,0 +1,237 @@
+{
+ "data": [
+  {
+   "created_time": "2017-12-17T17:01:22+0000",
+   "id": "976686305829099_976706082493788",
+   "from": {
+    "id": "10152452316341148",
+    "name": "Fd Lopez"
+   },
+   "message": "Team Three Stars!\n#DBZA"
+  },
+  {
+   "created_time": "2017-12-17T16:45:44+0000",
+   "id": "976686305829099_976693992494997",
+   "from": {
+    "id": "190987278083648",
+    "name": "Fabian PL"
+   },
+   "message": "Equipo dinamitaalfalobosuperbuenaonda \ud83d\ude02\ud83d\ude02\ud83d\ude02"
+  },
+  {
+   "created_time": "2017-12-17T16:43:15+0000",
+   "id": "976686305829099_976692295828500",
+   "from": {
+    "id": "760997887287024",
+    "name": "Jose Eduardo Romo A"
+   },
+   "message": "Basura"
+  },
+  {
+   "created_time": "2017-12-17T16:51:43+0000",
+   "id": "976686305829099_976698789161184",
+   "from": {
+    "id": "1467379596919683",
+    "name": "Franklin Shamano"
+   },
+   "message": "No qu\u00e9 era el equipo ALFA LOBO?"
+  },
+  {
+   "created_time": "2017-12-17T16:43:27+0000",
+   "id": "976686305829099_976692392495157",
+   "from": {
+    "id": "1541542492771845",
+    "name": "Ricardo Araya"
+   },
+   "message": "Gohan es una sakura/serena"
+  },
+  {
+   "created_time": "2017-12-17T18:16:18+0000",
+   "id": "976686305829099_976742659156797",
+   "from": {
+    "id": "824620260907285",
+    "name": "Will Koheler"
+   },
+   "message": "Dinamita? En la foto de arriba gohan estaba todo pendejo :v"
+  },
+  {
+   "created_time": "2017-12-17T16:37:38+0000",
+   "id": "976686305829099_976688095828920",
+   "from": {
+    "id": "769093523151529",
+    "name": "Alexis Vargas"
+   },
+   "message": "Vegeta tambi\u00e9n se va emputar por culpa de gohan?"
+  },
+  {
+   "created_time": "2017-12-17T18:55:16+0000",
+   "id": "976686305829099_976762235821506",
+   "from": {
+    "id": "784066878352375",
+    "name": "Julieta Martinez"
+   },
+   "message": "Esto explica mucho..."
+  },
+  {
+   "created_time": "2017-12-17T18:20:02+0000",
+   "id": "976686305829099_976743852490011",
+   "from": {
+    "id": "776208532440388",
+    "name": "Dul Roa"
+   },
+   "message": "No empezaron con piedra, papel o tijera??"
+  },
+  {
+   "created_time": "2017-12-17T17:00:04+0000",
+   "id": "976686305829099_976705445827185",
+   "from": {
+    "id": "1436260940030117",
+    "name": "Renzo Lambert"
+   },
+   "message": "falta Trunks."
+  },
+  {
+   "created_time": "2017-12-17T16:57:44+0000",
+   "id": "976686305829099_976704379160625",
+   "from": {
+    "id": "688579874558677",
+    "name": "Gaston Rodriguez"
+   },
+   "message": "osea que kokum y vegeta777 se agarraran a los putazos en vez de seguir la trama de la serie ? :v"
+  },
+  {
+   "created_time": "2017-12-17T18:55:01+0000",
+   "id": "976686305829099_976762165821513",
+   "from": {
+    "id": "759140437509586",
+    "name": "Damian Tejeda"
+   },
+   "message": "Yo crei que eramos el equipo dinamita :v"
+  },
+  {
+   "created_time": "2017-12-17T17:09:22+0000",
+   "id": "976686305829099_976710375826692",
+   "from": {
+    "id": "1013243552078864",
+    "name": "Cristian Garzon"
+   },
+   "message": "jajaj patrulla gitana jaja"
+  },
+  {
+   "created_time": "2017-12-17T17:44:56+0000",
+   "id": "976686305829099_976727469158316",
+   "from": {
+    "id": "800332320026556",
+    "name": "Teodoro Velazquez"
+   },
+   "message": "Achis, no eran el equipo escuadron alfa lobo?"
+  },
+  {
+   "created_time": "2017-12-17T17:36:52+0000",
+   "id": "976686305829099_976722999158763",
+   "from": {
+    "id": "10205205643927977",
+    "name": "Pablo Viruel Chavez"
+   },
+   "message": "Como ya le sacaron al macho picoro"
+  },
+  {
+   "created_time": "2017-12-17T16:36:59+0000",
+   "id": "976686305829099_976687602495636",
+   "from": {
+    "id": "10152910399954417",
+    "name": "Bruno Yeckle Okuma"
+   },
+   "message": "Donde Gohan continua siendo el mas pinche limitado de todos"
+  },
+  {
+   "created_time": "2017-12-17T16:51:32+0000",
+   "id": "976686305829099_976698595827870",
+   "from": {
+    "id": "157342304839258",
+    "name": "Jherson Guayrage"
+   },
+   "message": "El equipo es #dinamita"
+  },
+  {
+   "created_time": "2017-12-17T17:12:58+0000",
+   "id": "976686305829099_976711979159865",
+   "from": {
+    "id": "841070029294947",
+    "name": "Francisco Linares"
+   },
+   "message": "Tiene el peinado igual que su padre."
+  },
+  {
+   "created_time": "2017-12-17T17:30:24+0000",
+   "id": "976686305829099_976719999159063",
+   "from": {
+    "id": "1058318540845244",
+    "name": "Kevin Wittner"
+   },
+   "message": "ese equipo apesta"
+  },
+  {
+   "created_time": "2017-12-17T17:08:21+0000",
+   "id": "976686305829099_976709605826769",
+   "from": {
+    "id": "10210312210180581",
+    "name": "Archi Duque Carmeci"
+   },
+   "message": "Capito maaaaaalo puro relleno!!"
+  },
+  {
+   "created_time": "2017-12-17T17:04:51+0000",
+   "id": "976686305829099_976707899160273",
+   "from": {
+    "id": "141100616667491",
+    "name": "Axl Rain"
+   },
+   "message": "Ahora si, ya me deshice del marcianito....\nVamoa ser ss"
+  },
+  {
+   "created_time": "2017-12-17T17:19:22+0000",
+   "id": "976686305829099_976715182492878",
+   "from": {
+    "id": "10203392610761618",
+    "name": "Miguel Flores"
+   },
+   "message": "No eramos el equipo maravilla ?"
+  },
+  {
+   "created_time": "2017-12-17T17:53:06+0000",
+   "id": "976686305829099_976731955824534",
+   "from": {
+    "id": "10203575312036549",
+    "name": "Marco Antonio Guti\u00e8rrez Altamirano"
+   },
+   "message": "El equipo del canal cultural!"
+  },
+  {
+   "created_time": "2017-12-17T18:09:35+0000",
+   "id": "976686305829099_976739279157135",
+   "from": {
+    "id": "699628013443674",
+    "name": "Robert Escobar"
+   },
+   "message": "El equipo dinamita buena onda alfa lobo"
+  },
+  {
+   "created_time": "2017-12-17T16:46:15+0000",
+   "id": "976686305829099_976694275828302",
+   "from": {
+    "id": "407165712772246",
+    "name": "Eduardo Garcia"
+   },
+   "message": "Que no eramos el equipo buena onda :v?"
+  }
+ ],
+ "paging": {
+  "previous": "https://graph.facebook.com/v2.5/531211423709925_976686305829099/comments?access_token=EAACEdEose0cBAInYLIdE1QTKD9rRMYPC4I7xHLq04BOZAZCyUETiMb3pIfV34NuWyCyjcMiBhsjAoFdJGyDG0kdvygrjDdON1nSAwEXkivXGGzVxNxEOGUTHfbo1RSqU12M42LKxTxsGqwjQdClZB853aQaAAMxVWl3KN7EhQTuk1ZCZAIcNfOvWPWGOhX29hLNsyhzBjEQZDZD&limit=25&before=NDIZD",
+  "cursors": {
+   "before": "NDIZD",
+   "after": "MTgZD"
+  },
+  "next": "https://graph.facebook.com/v2.5/531211423709925_976686305829099/comments?access_token=EAACEdEose0cBAInYLIdE1QTKD9rRMYPC4I7xHLq04BOZAZCyUETiMb3pIfV34NuWyCyjcMiBhsjAoFdJGyDG0kdvygrjDdON1nSAwEXkivXGGzVxNxEOGUTHfbo1RSqU12M42LKxTxsGqwjQdClZB853aQaAAMxVWl3KN7EhQTuk1ZCZAIcNfOvWPWGOhX29hLNsyhzBjEQZDZD&limit=25&after=MTgZD"
+ }
+}
