@@ -4,7 +4,6 @@ function mostrarResultados(resultados) {
     if(!isAnimated)
     {
         isAnimated = true;
-        // Obtiene la suma total de mensajes
            
         var suma = 0;
         for (var i = 0; i < resultados.data.length; i++) {
@@ -40,13 +39,8 @@ function mostrarResultados(resultados) {
                 }
             }
             porcentaje = porcentaje/suma * 100;
-
-
             // Aqui va el nombre de la pagina de Facebook
             $("#pagina").text(resultados.nombre);
-            // Muestra la grafica de distribucion de los mensajes
-            // showChart(resultados.data);
-
 
             $("#bl_acept").show();
             // Esta es la grafica de porcentaje de aceptacion
@@ -83,11 +77,16 @@ function mostrarResultados(resultados) {
             $("#pagina").text(resultados.nombre);
             d3.select("#no_comments").text("No hay comentarios.");
         }
-        $("#post_info").html("<h5> Se analizaron "+ suma +" comentarios encontrados en el post más reciente con comentarios:<br/>" + 
+
+        $("#post_info").html("<h5> Se analizaron " + resultados.total + " comentarios en el post más reciente con comentarios ("+
             "<a href='"+resultados.url+"posts"+"/"+resultados.id_post+"' target='_blank'>"+resultados.url+"posts"+"/"+resultados.id_post+"</a>" + 
-            "<br/> Y se distribuyen de la siguiente manera:</h5><br/>");
+            "), de los cuales " + suma + " tuvieron un análisis exitoso y " + resultados.fallidos + " fallaron.<br>" + 
+            "<br/> Estos se distribuyen de la siguiente manera:</h5><br/>");
         $("#link_post").html()
         $("#cantidad_mensajes").html() 
+    }else
+    {
+        console.log("No puedes hasta que se cargue.")
     }
 }
 

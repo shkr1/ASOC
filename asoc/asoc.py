@@ -67,7 +67,7 @@ def add_numbers():
     url = request.args.get('url', 0, type=str)
     mensajes, name, id_post = get_page_comments(url)
 
-    datos = get_sentiment(mensajes)
+    datos, fallidos = get_sentiment(mensajes)
 
     # datos = {"P+":2,"P":3,"NEU":2,"N":2,"N+":1}
     data = []
@@ -78,6 +78,8 @@ def add_numbers():
     result['data'] = data
     result['id_post'] = id_post
     result['url'] = url
+    result['fallidos'] = fallidos
+    result['total'] = len(mensajes)
 
     # print(data)
     return jsonify(result=result)
@@ -112,7 +114,7 @@ def get_page_comments(url, limit=400):
 
     messages = []
 
-    ACCESS_TOKEN = 'EAACEdEose0cBAE0o1QnM1jLEEpp275tnBSMjSkbxZBQNj8SRyaMdPGBCFIAZCp65GUtyNFZCPdBnMQ8OlBZAUKVYrcsZCovn5vRJ8jPBsjMNeArutHntiLk0MYDZANNZC3PL4rmWSTrQAmRQ62QPEE7CyLx5OnOIqfgNt8YqulNLDZA6lnyP7vteZCNqwKDWV8ltWoJrnftB0AAZDZD'
+    ACCESS_TOKEN = 'EAACEdEose0cBAIyDRmfQzpycWDiWHZBA0hajI0nEWrPrTsS1khpnziZBTwM2stZCrxhNrYdZAhnRJtZBPgSaE1hHIJwZC1MhAOCFqVsMbTgODl4o8oPEZC4AzDenlYLWfFhzpZAacmXFJjyJ4o5ONpk3e77D2BYCJglE6XHb02cQasrvz1sZCyS27XpgxNe3GYhGIZANAB00WpogZDZD'
     g = facebook.GraphAPI(ACCESS_TOKEN)
     object_id = url.rsplit('/')[3]
     posts = g.get_connections(object_id, 'posts')
@@ -153,26 +155,35 @@ def get_sentiment(mensajes):
     key = "5c804449950579c8c623bf2d136d21e5"    #2048ab0a47ddc5b10929719c430b66ed
     puntos = {}
     par = 0
+    with open("temp.txt", "w+", encoding="utf-8") as file:
+        file.write(json.dumps(mensajes))
+    print(len(mensajes))
+    fallidos = 0
     for mensaje in mensajes:
-        payload = "key="+ key +"&lang=auto&txt="+ mensaje +"&txtf=plain"
-        payload = payload.encode("utf-8")
-        headers = {'content-type': 'application/x-www-form-urlencoded'}
-        try:
-            response = requests.request("POST", url, data=payload, headers=headers)
-            sent_json = json.loads(response.text)
-            # print(sent_json)
-            if sent_json["score_tag"] == "NONE":
-                sent_json["score_tag"] = "NEU"
+        mensaje = limpiar(mensaje)
+        if len(mensaje) > 0:
+            payload = "key="+ key +"&lang=auto&txt="+ mensaje +"&txtf=plain"
+            payload = payload.encode("utf-8")
+            headers = {'content-type': 'application/x-www-form-urlencoded'}
+            try:
+                response = requests.request("POST", url, data=payload, headers=headers)
+                sent_json = json.loads(response.text)
+                # print(sent_json)
+                if sent_json["score_tag"] == "NONE":
+                    sent_json["score_tag"] = "NEU"
+                    
+                if sent_json["score_tag"] in puntos.keys():
+                    puntos[ sent_json["score_tag"] ] += 1
+                else:
+                    puntos[ sent_json["score_tag"] ] = 1
                 
-            if sent_json["score_tag"] in puntos.keys():
-                puntos[ sent_json["score_tag"] ] += 1
-            else:
-                puntos[ sent_json["score_tag"] ] = 1
-            
-            if par%2 == 0:
-                time.sleep(2)
-            par+=1
-        except Exception as e:
-            continue 
+                print(par)
+                if par%2 == 0:
+                    time.sleep(1.1)
+                par+=1
+            except Exception as e:
+                fallidos += 1
+                print(mensaje)
+                continue 
 
-    return puntos
+    return puntos, fallidos
